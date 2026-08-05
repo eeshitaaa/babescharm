@@ -259,6 +259,54 @@ nav a:hover,
   line-height: 0;
 }
 
+.download-actions {
+  position: absolute;
+  left: 28px;
+  bottom: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.save-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--pink-deep);
+  background: rgba(255, 253, 253, 0.82);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.save-button span {
+  font-size: 15px;
+  line-height: 0;
+}
+
+.save-button:hover,
+.save-button:focus-visible,
+.flip-button:hover,
+.flip-button:focus-visible {
+  border-color: var(--pink);
+  background: #fff;
+}
+
+.save-button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.download-status {
+  position: absolute;
+  right: 28px;
+  bottom: 4px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .hero-copy {
   padding-top: 36px;
 }
@@ -518,6 +566,16 @@ fieldset {
 
   .hero-copy {
     padding: 54px 14px 18px;
+  }
+
+  .download-actions {
+    left: 20px;
+    bottom: 24px;
+  }
+
+  .download-status {
+    right: 20px;
+    bottom: 5px;
   }
 
   .hero-copy h1 {
