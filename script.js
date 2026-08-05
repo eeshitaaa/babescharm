@@ -211,9 +211,13 @@ async function downloadVideo() {
     canvas.height = EXPORT_SIZE;
     const context = canvas.getContext("2d");
     const stream = canvas.captureStream(30);
-    const mimeType = MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
-      ? "video/webm;codecs=vp9"
-      : "video/webm";
+    const mimeTypes = [
+      "video/mp4;codecs=avc1.42E01E,mp4a.40.2",
+      "video/webm;codecs=vp9",
+      "video/webm",
+    ];
+    const mimeType = mimeTypes.find((type) => MediaRecorder.isTypeSupported(type));
+    if (!mimeType) throw new Error("No supported video format");
     const recorder = new MediaRecorder(stream, { mimeType });
     const chunks = [];
     recorder.ondataavailable = (event) => event.data.size && chunks.push(event.data);
@@ -232,7 +236,8 @@ async function downloadVideo() {
     };
     requestAnimationFrame(render);
     const blob = await finished;
-    saveBlob(blob, "my-heart-locket.webm");
+    const extension = mimeType.startsWith("video/mp4") ? "mp4" : "webm";
+    saveBlob(blob, `my-heart-locket.${extension}`);
     setDownloadStatus("saved your video ♡");
   } catch (error) {
     setDownloadStatus("video download was not available");

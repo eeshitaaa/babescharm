@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Parisienne";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./Parisienne-Regular.ttf") format("truetype");
+}
+
 :root {
   --ink: #2e2730;
   --muted: #786f79;
