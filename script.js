@@ -142,10 +142,21 @@ function drawExportFrame(context, canvas, offsetY = 0, time = 0) {
   const charmY = (height - charmSize) / 2 + offsetY;
 
   context.save();
-  context.fillStyle = "rgba(141, 75, 113, 0.16)";
-  context.filter = "blur(18px)";
+  const shadowY = charmY + charmSize * 0.94;
+  const shadowGradient = context.createRadialGradient(
+    centerX,
+    shadowY,
+    0,
+    centerX,
+    shadowY,
+    charmSize * 0.34,
+  );
+  shadowGradient.addColorStop(0, "rgba(141, 75, 113, 0.10)");
+  shadowGradient.addColorStop(0.48, "rgba(141, 75, 113, 0.045)");
+  shadowGradient.addColorStop(1, "rgba(141, 75, 113, 0)");
+  context.fillStyle = shadowGradient;
   context.beginPath();
-  context.ellipse(centerX, charmY + charmSize * 0.94, charmSize * 0.27, 18, 0, 0, Math.PI * 2);
+  context.ellipse(centerX, shadowY, charmSize * 0.27, 18, 0, 0, Math.PI * 2);
   context.fill();
   context.restore();
 
