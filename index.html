@@ -1,209 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solana Marketer OS | 12-Week Guided Course</title>
-    <meta
-      name="description"
-      content="A 12-week Solana course for marketers covering DeFi, staking, token design, CeFi, growth, analytics, and current network upgrades with quizzes and daily assignments."
-    />
+    <title>Heart Locket | Custom Charm</title>
+    <meta name="description" content="Customize a floating heart-shaped locket." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Parisienne&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=locket-fresh-20260805" />
   </head>
   <body>
-    <div class="page-shell">
+    <main class="app" id="top">
       <header class="topbar">
-        <div>
-          <p class="eyebrow">Senior Marketer Track</p>
-          <a class="brand" href="#top">Solana Marketer OS</a>
-        </div>
-        <nav class="topnav" aria-label="Primary">
-          <a href="#curriculum">Curriculum</a>
-          <a href="#lesson">Lesson</a>
-          <a href="#sources">Sources</a>
+        <a class="brand" href="#top" aria-label="Heart locket home">
+          <span class="brand-pill">heart</span>
+          <span>locket</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#customize">customize</a>
+          <a href="#details">details</a>
         </nav>
       </header>
 
-      <main id="top">
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">12 weeks • 84 lessons • daily assignments</p>
-            <h1>
-              Learn Solana like a senior crypto marketer who can talk product, liquidity,
-              token design, and growth without faking the technical layer.
-            </h1>
-            <p class="hero-text">
-              This course plan is structured for 3 months of guided learning. Every day has a
-              lesson, a practical assignment, and a quiz. The curriculum includes DeFi, CeFi,
-              staking, pools, token supply mechanics, launch strategy, institutional rails, and
-              current Solana upgrades and risks as of March 20, 2026.
-            </p>
-            <div class="hero-actions">
-              <button class="primary-btn" type="button" id="resume-course">Resume course</button>
-              <button class="ghost-btn" type="button" id="reset-progress">Reset progress</button>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="stage">
+          <p class="stage-label">your little heart charm <span aria-hidden="true">♡</span></p>
+          <div class="chain chain-left" aria-hidden="true"></div>
+          <div class="chain chain-right" aria-hidden="true"></div>
+          <div class="float-zone">
+            <div class="locket-wrap" id="locketWrap">
+              <div class="locket" id="locket" aria-live="polite">
+                <div class="locket-face locket-front">
+                  <img class="locket-art" src="heart-locket.png?v=locket-gold-20260805" alt="Polished bright gold heart-shaped locket" />
+                  <span class="engraving" id="frontEngraving">babes</span>
+                </div>
+                <div class="locket-face locket-back" aria-hidden="true">
+                  <img class="locket-art" src="heart-locket.png?v=locket-gold-20260805" alt="" />
+                  <span class="back-engraving">babes</span>
+                </div>
+              </div>
             </div>
+            <div class="shadow" aria-hidden="true"></div>
           </div>
+          <button class="flip-button" id="flipButton" type="button" aria-pressed="false">
+            <span aria-hidden="true">↻</span>
+            show back
+          </button>
+        </div>
 
-          <aside class="hero-panel">
-            <div class="metric-grid">
-              <article class="metric-card">
-                <span>Track</span>
-                <strong>Marketing + DeFi depth</strong>
-              </article>
-              <article class="metric-card">
-                <span>Cadence</span>
-                <strong>1 lesson per day</strong>
-              </article>
-              <article class="metric-card">
-                <span>Focus</span>
-                <strong>Operator-level fluency</strong>
-              </article>
-              <article class="metric-card">
-                <span>Proof</span>
-                <strong>Quizzes + capstone</strong>
-              </article>
-            </div>
+        <div class="hero-copy">
+          <p class="kicker">yayy girl!! &lt;3</p>
+          <h1 id="page-title">make it yours.</h1>
+          <p>A tiny floating heart locket for your name, nickname, tag, spell, or secret.</p>
+          <a class="text-link" href="#customize">customize your locket <span aria-hidden="true">↘</span></a>
+        </div>
+      </section>
 
-            <div class="progress-panel">
-              <p class="progress-label">Course completion</p>
-              <div class="progress-track" aria-hidden="true">
-                <span id="course-progress-bar"></span>
-              </div>
-              <div class="progress-row">
-                <strong id="course-progress-text">0 / 84 lessons complete</strong>
-                <span id="quiz-progress-text">0 quizzes passed</span>
-              </div>
-              <p class="progress-note" id="streak-text">Start with Week 1, Day 1.</p>
-            </div>
-          </aside>
-        </section>
-
-        <section class="dashboard" id="curriculum">
-          <aside class="sidebar">
-            <div class="sidebar-card">
-              <p class="sidebar-title">Navigator</p>
-              <div class="filter-row" role="group" aria-label="Curriculum filters">
-                <button class="filter-chip is-active" data-filter="all" type="button">All</button>
-                <button class="filter-chip" data-filter="foundation" type="button">Foundation</button>
-                <button class="filter-chip" data-filter="defi" type="button">DeFi</button>
-                <button class="filter-chip" data-filter="growth" type="button">Growth</button>
-                <button class="filter-chip" data-filter="risk" type="button">Risk</button>
-              </div>
-            </div>
-
-            <div class="week-list" id="week-list" aria-live="polite"></div>
-          </aside>
-
-          <section class="lesson-stage" id="lesson">
-            <div class="lesson-header">
-              <div>
-                <p class="eyebrow" id="lesson-kicker">Week 1 • Day 1</p>
-                <h2 id="lesson-title">Loading lesson...</h2>
-              </div>
-              <div class="lesson-actions">
-                <button class="ghost-btn" type="button" id="prev-lesson">Previous</button>
-                <button class="primary-btn" type="button" id="next-lesson">Next</button>
-              </div>
-            </div>
-
-            <div class="lesson-grid">
-              <article class="content-card lesson-card">
-                <div class="tag-row">
-                  <span class="topic-tag" id="lesson-theme">Foundation</span>
-                  <span class="topic-tag subtle" id="lesson-week-theme">Mental model</span>
-                </div>
-                <p class="lesson-summary" id="lesson-summary"></p>
-
-                <div class="section-block">
-                  <h3>Why this matters for marketing</h3>
-                  <p id="lesson-why"></p>
-                </div>
-
-                <div class="section-block">
-                  <h3>Core lesson</h3>
-                  <ul id="lesson-points" class="bullet-list"></ul>
-                </div>
-
-                <div class="section-block">
-                  <h3>Assignment</h3>
-                  <div class="assignment-card">
-                    <p id="lesson-assignment"></p>
-                    <label class="check-line">
-                      <input type="checkbox" id="assignment-complete" />
-                      <span>Mark today’s assignment done</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="section-block">
-                  <h3>Checkpoint</h3>
-                  <p id="lesson-checkpoint"></p>
-                </div>
-              </article>
-
-              <aside class="content-card quiz-card">
-                <div class="quiz-head">
-                  <div>
-                    <p class="sidebar-title">Daily quiz</p>
-                    <p class="quiz-subtitle">Pass 2 questions to unlock the next day with confidence.</p>
-                  </div>
-                  <span class="quiz-badge" id="quiz-state">Not passed</span>
-                </div>
-                <form id="quiz-form" class="quiz-form"></form>
-                <div class="quiz-actions">
-                  <button class="primary-btn" type="button" id="submit-quiz">Check answers</button>
-                </div>
-                <p class="quiz-result" id="quiz-result"></p>
-              </aside>
-            </div>
-          </section>
-        </section>
-
-        <section class="week-overview">
-          <article class="overview-card">
-            <p class="sidebar-title">What you will be able to do after 3 months</p>
-            <ul class="bullet-list">
-              <li>Explain Solana product mechanics clearly to retail, founder, and institutional audiences.</li>
-              <li>Evaluate tokens using supply, unlocks, float, emissions, yield sources, and liquidity structure.</li>
-              <li>Break down staking, liquid staking, AMMs, CLMMs, lending, perps, and treasury products without hand-waving.</li>
-              <li>Plan launches, GTM campaigns, partnerships, listings, analytics, and crisis responses like an operator.</li>
-              <li>Speak credibly about current Solana upgrades, bottlenecks, and security narratives using exact context.</li>
-            </ul>
-          </article>
-          <article class="overview-card">
-            <p class="sidebar-title">Current context covered in the course</p>
-            <ul class="bullet-list">
-              <li>Token Extensions and how they change the marketing surface of assets and fintech products.</li>
-              <li>Actions and Blinks as distribution rails for transaction-native growth experiences.</li>
-              <li>Validator-side upgrades such as Vote Account V4, XDP, and block revenue distribution plans.</li>
-              <li>Recent institutional adoption, stablecoin payment rails, and liquid staking product packaging.</li>
-              <li>Security and product-risk lessons from confidential transfer issues and protocol upgrade coordination.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="sources-section" id="sources">
-          <div class="sources-head">
-            <div>
-              <p class="eyebrow">Reference stack</p>
-              <h2>Primary sources used for the current-state sections</h2>
-            </div>
-            <p class="sources-note">
-              The course content combines stable concepts with official Solana material checked on
-              March 20, 2026.
-            </p>
+      <section class="customizer" id="customize" aria-labelledby="customize-title">
+        <div class="section-heading">
+          <p class="kicker">custom charm</p>
+          <h2 id="customize-title">put your name on it.</h2>
+        </div>
+        <form class="controls" id="customizerForm">
+          <label for="locketText">front engraving</label>
+          <div class="input-wrap">
+            <input id="locketText" name="locketText" maxlength="16" value="babes" autocomplete="off" />
+            <span id="charCount">5/16</span>
           </div>
-          <div class="sources-list" id="sources-list"></div>
-        </section>
-      </main>
-    </div>
+          <p class="hint">babes got your back</p>
 
-    <script src="./script.js"></script>
+          <fieldset>
+            <legend>finish</legend>
+            <div class="finish-options" role="group" aria-label="Locket finish">
+              <button class="finish-option is-active" type="button" data-finish="gold" aria-pressed="true">
+                <span class="swatch swatch-gold" aria-hidden="true"></span>gold
+              </button>
+              <button class="finish-option" type="button" data-finish="rose" aria-pressed="false">
+                <span class="swatch swatch-rose" aria-hidden="true"></span>rose
+              </button>
+              <button class="finish-option" type="button" data-finish="chrome" aria-pressed="false">
+                <span class="swatch swatch-chrome" aria-hidden="true"></span>chrome
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="details" id="details" aria-labelledby="details-title">
+        <p class="kicker">made to feel like yours</p>
+        <h2 id="details-title">a little keepsake<br />for the main character.</h2>
+        <footer class="footer">&lt;3 by eeshita</footer>
+      </section>
+    </main>
+    <script src="script.js"></script>
   </body>
 </html>
