@@ -28,7 +28,7 @@ function setDownloadStatus(message) {
 
 async function prepareExport() {
   if (document.fonts?.load) {
-    await document.fonts.load('52px "Parisienne"');
+    await document.fonts.load('70px "Parisienne"');
   }
   if (!frontImage.complete || !frontImage.naturalWidth) {
     await frontImage.decode();
@@ -155,12 +155,15 @@ function drawExportFrame(context, canvas, offsetY = 0, time = 0) {
   context.save();
   context.textAlign = "center";
   context.textBaseline = "middle";
-  context.font = '52px "Parisienne", cursive';
+  const previewLocketSize = locket.getBoundingClientRect().width || 510;
+  const previewFontSize = parseFloat(getComputedStyle(frontEngraving).fontSize) || 52;
+  const exportFontSize = Math.round(previewFontSize * (charmSize / previewLocketSize));
+  context.font = `${exportFontSize}px "Parisienne", cursive`;
   context.fillStyle = "#5a301c";
   context.shadowColor = "rgba(255, 246, 196, 0.88)";
   context.shadowBlur = 0;
   context.shadowOffsetY = 1;
-  const lineHeight = 48;
+  const lineHeight = Math.round(exportFontSize * 0.92);
   const textY = charmY + charmSize * 0.55 - ((lines.length - 1) * lineHeight) / 2;
   lines.forEach((line, index) => context.fillText(line, centerX, textY + index * lineHeight));
   context.restore();
