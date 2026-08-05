@@ -10,6 +10,8 @@ const downloadStatus = document.querySelector("#downloadStatus");
 const frontImage = document.querySelector(".locket-front .locket-art");
 
 const EXPORT_SIZE = 900;
+let exportImageCache = null;
+let exportCacheFinish = "";
 
 function engravingLines() {
   const value = locketText.value.trim() || "babes";
@@ -33,6 +35,100 @@ async function prepareExport() {
   }
 }
 
+function clamp(value) {
+  return Math.max(0, Math.min(255, value));
+}
+
+function rgbToHsl(red, green, blue) {
+  const r = red / 255;
+  const g = green / 255;
+  const b = blue / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const lightness = (max + min) / 2;
+  if (max === min) return [0, 0, lightness];
+  const delta = max - min;
+  const saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+  let hue;
+  if (max === r) hue = (g - b) / delta + (g < b ? 6 : 0);
+  else if (max === g) hue = (b - r) / delta + 2;
+  else hue = (r - g) / delta + 4;
+  return [hue / 6, saturation, lightness];
+}
+
+function hueToRgb(p, q, hue) {
+  let value = hue;
+  if (value < 0) value += 1;
+  if (value > 1) value -= 1;
+  if (value < 1 / 6) return p + (q - p) * 6 * value;
+  if (value < 1 / 2) return q;
+  if (value < 2 / 3) return p + (q - p) * (2 / 3 - value) * 6;
+  return p;
+}
+
+function hslToRgb(hue, saturation, lightness) {
+  if (saturation === 0) {
+    const value = lightness * 255;
+    return [value, value, value];
+  }
+  const q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation;
+  const p = 2 * lightness - q;
+  return [
+    hueToRgb(p, q, hue + 1 / 3) * 255,
+    hueToRgb(p, q, hue) * 255,
+    hueToRgb(p, q, hue - 1 / 3) * 255,
+  ];
+}
+
+function transformExportPixels(imageData, finish) {
+  if (finish === "gold") return imageData;
+  const pixels = imageData.data;
+  for (let index = 0; index < pixels.length; index += 4) {
+    if (pixels[index + 3] === 0) continue;
+    let red = pixels[index];
+    let green = pixels[index + 1];
+    let blue = pixels[index + 2];
+    let [hue, saturation, lightness] = rgbToHsl(red, green, blue);
+    if (finish === "rose") {
+      hue = (hue + 307 / 360) % 1;
+      saturation = Math.min(1, saturation * 1.08);
+      lightness = Math.min(1, lightness * 1.02);
+      [red, green, blue] = hslToRgb(hue, saturation, lightness);
+    } else if (finish === "chrome") {
+      const luminance = red * 0.2126 + green * 0.7152 + blue * 0.0722;
+      red = red * 0.12 + luminance * 0.88;
+      green = green * 0.12 + luminance * 0.88;
+      blue = blue * 0.12 + luminance * 0.88;
+      [hue, saturation, lightness] = rgbToHsl(red, green, blue);
+      [red, green, blue] = hslToRgb(hue, saturation * 0.5, lightness * 1.12);
+      red = (red - 128) * 0.94 + 128;
+      green = (green - 128) * 0.94 + 128;
+      blue = (blue - 128) * 0.94 + 128;
+    }
+    pixels[index] = clamp(red);
+    pixels[index + 1] = clamp(green);
+    pixels[index + 2] = clamp(blue);
+  }
+  return imageData;
+}
+
+function getExportImage(size) {
+  const finish = locket.dataset.finish || "gold";
+  if (exportImageCache && exportCacheFinish === finish) return exportImageCache;
+  const imageCanvas = document.createElement("canvas");
+  imageCanvas.width = size;
+  imageCanvas.height = size;
+  const imageContext = imageCanvas.getContext("2d");
+  imageContext.drawImage(frontImage, 0, 0, size, size);
+  if (finish !== "gold") {
+    const pixels = imageContext.getImageData(0, 0, size, size);
+    imageContext.putImageData(transformExportPixels(pixels, finish), 0, 0);
+  }
+  exportImageCache = imageCanvas;
+  exportCacheFinish = finish;
+  return imageCanvas;
+}
+
 function drawExportFrame(context, canvas, offsetY = 0, time = 0) {
   const width = canvas.width;
   const height = canvas.height;
@@ -53,10 +149,7 @@ function drawExportFrame(context, canvas, offsetY = 0, time = 0) {
   context.fill();
   context.restore();
 
-  context.save();
-  context.filter = getComputedStyle(frontImage).filter || "none";
-  context.drawImage(frontImage, charmX, charmY, charmSize, charmSize);
-  context.restore();
+  context.drawImage(getExportImage(charmSize), charmX, charmY, charmSize, charmSize);
 
   const lines = engravingLines();
   context.save();
@@ -175,6 +268,8 @@ finishButtons.forEach((button) => {
       option.setAttribute("aria-pressed", String(active));
     });
     locket.dataset.finish = button.dataset.finish;
+    exportImageCache = null;
+    exportCacheFinish = "";
   });
 });
 
